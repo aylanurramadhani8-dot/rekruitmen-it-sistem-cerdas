@@ -7,6 +7,9 @@
   <meta name="description" content="Sistem seleksi kelayakan dan estimasi gaji pelamar programmer IT berbasis machine learning.">
   <title>Seleksi Programmer IT | Sistem Cerdas</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
@@ -21,17 +24,46 @@
 
   <main>
     <section class="hero">
-      <div class="container hero-content">
-        <span class="eyebrow">TALENT INTELLIGENCE PLATFORM</span>
-        <h1>Temukan potensi terbaik<br class="d-none d-md-block"> untuk tim teknologi Anda.</h1>
-        <p>Analisis kelayakan dan estimasi gaji programmer IT berbasis machine learning.</p>
-        <a class="btn btn-light btn-lg hero-button" href="#form-seleksi">Mulai analisis <span aria-hidden="true">↓</span></a>
+      <div class="container hero-layout">
+        <div class="hero-content">
+          <div class="hero-status"><span class="pulse-dot"></span> Sistem seleksi aktif <span class="status-sparkle" aria-hidden="true">✦</span></div>
+          <span class="eyebrow">TALENT INTELLIGENCE PLATFORM</span>
+          <h1>Temukan potensi terbaik<span class="hero-highlight">, mulai dari sini.</span></h1>
+          <p>Setiap perjalanan karier punya cerita hebat. Baca potensinya dengan analisis yang lebih cerdas dan langkah yang lebih percaya diri.</p>
+          <a class="btn btn-light btn-lg hero-button" href="#form-seleksi">Mulai analisis <span aria-hidden="true">↗</span></a>
+          <div class="hero-trust"><span aria-hidden="true">✦</span> Insight berbasis data untuk keputusan yang lebih mantap</div>
+        </div>
+        <div class="hero-visual" aria-label="Ringkasan sistem seleksi">
+          <div class="hero-orbit orbit-one"></div>
+          <div class="hero-orbit orbit-two"></div>
+          <div class="hero-note note-top"><span class="note-icon note-icon-mint">↗</span><span><strong>Potensi, bukan sekadar angka</strong><small>Insight yang lebih bermakna</small></span></div>
+          <div class="hero-score-card">
+            <div class="hero-score-top"><span class="hero-score-icon">✦</span><span class="hero-score-label">TALENT INSIGHT</span><span class="hero-score-live"><i></i> LIVE</span></div>
+            <div class="hero-score-number">100<span>/100</span></div>
+            <div class="hero-score-caption">Setiap kandidat punya ruang untuk bersinar.</div>
+            <div class="hero-score-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="hero-note note-bottom"><span class="note-icon note-icon-amber">✧</span><span><strong>Langkah kecil, karier besar</strong><small>Mulai dari satu analisis</small></span></div>
+        </div>
       </div>
-      <div class="hero-orb hero-orb-one"></div>
-      <div class="hero-orb hero-orb-two"></div>
     </section>
 
     <div class="container page-content">
+      <section class="quick-stats" aria-label="Ringkasan sistem">
+        <article class="quick-stat">
+          <span class="quick-stat-icon icon-indigo" aria-hidden="true">◎</span>
+          <div><strong>{{ riwayat|length }}</strong><span>pelamar dianalisis</span></div>
+        </article>
+        <article class="quick-stat">
+          <span class="quick-stat-icon icon-teal" aria-hidden="true">✓</span>
+          <div><strong>75<span class="stat-unit">/100</span></strong><span>ambang kelulusan</span></div>
+        </article>
+        <article class="quick-stat">
+          <span class="quick-stat-icon icon-coral" aria-hidden="true">✦</span>
+          <div><strong>AI + ML</strong><span>insight berbasis data</span></div>
+        </article>
+      </section>
+
       {% if messages %}
         <div class="messages mb-4" aria-live="polite">
           {% for message in messages %}
@@ -47,10 +79,10 @@
         <div class="section-heading">
           <div>
             <span class="eyebrow text-primary">ANALISIS KANDIDAT</span>
-            <h2>Input data pelamar</h2>
-            <p>Lengkapi nilai kandidat untuk mendapatkan hasil analisis.</p>
+            <h2>Kenali potensi kandidat <span class="heading-sparkle">✦</span></h2>
+            <p>Input data pelamar untuk membuka insight yang lebih personal.</p>
           </div>
-          <div class="step-badge">01 <span>/ 03</span></div>
+          <div class="step-badge"><span class="step-number">01</span><span class="step-total">/ 03</span></div>
         </div>
         <form method="post" novalidate>
           {% csrf_token %}
@@ -59,9 +91,27 @@
           {% endif %}
           <div class="row g-4">
             {% for field in form %}
-              <div class="{% if field.name == 'nama_pelamar' %}col-12{% else %}col-md-6{% endif %}">
-                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field }}
+              <div class="{% if field.name == 'nama_pelamar' %}col-12{% else %}col-md-6{% endif %} field-column">
+                <div class="field-label-row">
+                  <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {% if field.name == 'tes_coding' or field.name == 'wawancara' or field.name == 'portofolio_uiux' or field.name == 'pengalaman_tahun' %}
+                    <span class="score-live-badge" data-score-badge="{{ field.name }}" aria-live="polite">Menunggu nilai</span>
+                  {% endif %}
+                </div>
+                {% if field.name == 'tes_coding' or field.name == 'wawancara' or field.name == 'portofolio_uiux' or field.name == 'pengalaman_tahun' %}
+                  <div class="input-shell">
+                    <span class="input-icon" aria-hidden="true">{% if field.name == 'tes_coding' %}&lt;/&gt;{% elif field.name == 'wawancara' %}✦{% elif field.name == 'portofolio_uiux' %}▧{% else %}↗{% endif %}</span>
+                    {{ field }}
+                  </div>
+                  <div class="score-meter" role="progressbar" aria-label="Indikator {{ field.label }}" aria-valuemin="0" aria-valuemax="{% if field.name == 'pengalaman_tahun' %}10{% else %}100{% endif %}" aria-valuenow="0">
+                    <span class="score-meter-fill" data-score-meter="{{ field.name }}"></span>
+                  </div>
+                {% else %}
+                  <div class="input-shell name-input-shell">
+                    <span class="input-icon" aria-hidden="true">☺</span>
+                    {{ field }}
+                  </div>
+                {% endif %}
                 {% if field.errors %}
                   <div class="invalid-feedback d-block">{{ field.errors|join:", " }}</div>
                 {% endif %}
@@ -74,8 +124,8 @@
             {% endfor %}
           </div>
           <div class="form-footer">
-            <span class="privacy-note"><span class="privacy-dot"></span> Data tersimpan secara lokal pada database aplikasi.</span>
-            <button type="submit" class="btn btn-primary btn-submit">Analisis kandidat <span aria-hidden="true">→</span></button>
+            <span class="privacy-note"><span class="privacy-dot"></span> Data tersimpan lokal dan digunakan untuk analisis.</span>
+            <button type="submit" class="btn btn-primary btn-submit"><span>Analisis kandidat</span><span class="submit-arrow" aria-hidden="true">↗</span></button>
           </div>
         </form>
       </section>
@@ -85,19 +135,19 @@
           <div class="section-heading">
             <div>
               <span class="eyebrow text-primary">HASIL ANALISIS</span>
-              <h2>Ringkasan kandidat</h2>
+              <h2>Perjalanan potensi <span class="heading-sparkle">✦</span></h2>
             </div>
             <span class="result-time">{{ latest_result.tanggal_input|date:"d M Y, H:i" }} WIB</span>
           </div>
           <div class="row g-4 mb-4">
             <div class="col-lg-4">
-              <article class="result-card status-card h-100">
+              <article class="result-card status-card h-100 {% if latest_result.status_kelulusan == 'DITERIMA' %}status-card-accepted{% else %}status-card-rejected{% endif %}">
                 <span class="result-label">STATUS KELAYAKAN</span>
                 <div class="status-value {% if latest_result.status_kelulusan == 'DITERIMA' %}accepted{% else %}rejected{% endif %}">
-                  <span class="status-indicator"></span>{{ latest_result.status_kelulusan }}
+                  <span class="status-indicator"></span>{{ latest_result.status_kelulusan }} <span class="status-celebration" aria-hidden="true">{% if latest_result.status_kelulusan == 'DITERIMA' %}✦{% else %}↗{% endif %}</span>
                 </div>
                 <h3>{{ latest_result.nama_pelamar }}</h3>
-                <p>Keputusan klasifikasi berdasarkan hasil tes, wawancara, dan portofolio.</p>
+                <p>{% if latest_result.status_kelulusan == 'DITERIMA' %}Selamat! Ini langkah keren menuju peluang berikutnya.{% else %}Setiap hasil adalah pijakan baru. Terus tumbuh, peluang lain menanti.{% endif %}</p>
               </article>
             </div>
             <div class="col-lg-4">
@@ -131,10 +181,10 @@
         <div class="section-heading">
           <div>
             <span class="eyebrow text-primary">MODEL TRANSPARAN</span>
-            <h2>Di balik analisis</h2>
-            <p>Visualisasi model machine learning yang digunakan dalam sistem.</p>
+            <h2>Pelajari cara model berpikir</h2>
+            <p>Jelajahi visualisasi prediksi, klik grafik untuk melihat detailnya.</p>
           </div>
-          <div class="step-badge">02 <span>/ 03</span></div>
+          <div class="step-badge"><span class="step-number">02</span><span class="step-total">/ 03</span></div>
         </div>
         <div class="row g-4">
           <div class="col-lg-6">
@@ -144,7 +194,10 @@
                 <span class="chart-tag">KLASIFIKASI</span>
               </div>
               <p>Logika keputusan model untuk menentukan status kelulusan kandidat.</p>
-              <img src="{% static 'images/decision_tree.png' %}" alt="Visualisasi pohon keputusan untuk klasifikasi kelulusan">
+              <button type="button" class="chart-image-button" data-lightbox-caption="Pohon keputusan · Klasifikasi kelulusan" aria-label="Perbesar visualisasi pohon keputusan">
+                <img src="{% static 'images/decision_tree.png' %}" alt="Visualisasi pohon keputusan untuk klasifikasi kelulusan">
+                <span class="chart-zoom-hint"><span aria-hidden="true">⌕</span> Klik untuk memperbesar</span>
+              </button>
             </article>
           </div>
           <div class="col-lg-6">
@@ -154,7 +207,10 @@
                 <span class="chart-tag">REGRESI</span>
               </div>
               <p>Hubungan pengalaman dan skor tes dengan estimasi gaji bulanan.</p>
-              <img src="{% static 'images/regresi_gaji.png' %}" alt="Scatter plot dan garis regresi estimasi gaji programmer">
+              <button type="button" class="chart-image-button" data-lightbox-caption="Regresi gaji · Estimasi bulanan" aria-label="Perbesar visualisasi regresi gaji">
+                <img src="{% static 'images/regresi_gaji.png' %}" alt="Scatter plot dan garis regresi estimasi gaji programmer">
+                <span class="chart-zoom-hint"><span aria-hidden="true">⌕</span> Klik untuk memperbesar</span>
+              </button>
             </article>
           </div>
         </div>
@@ -167,12 +223,22 @@
             <h2>Riwayat seleksi</h2>
             <p>Daftar analisis kandidat yang tersimpan di database.</p>
           </div>
-          <div class="step-badge">03 <span>/ 03</span></div>
+          <div class="history-heading-tools">
+            {% if riwayat %}
+              <label class="history-search">
+                <span aria-hidden="true">⌕</span>
+                <span class="visually-hidden">Cari nama pelamar</span>
+                <input id="history-search" type="search" placeholder="Cari nama pelamar..." autocomplete="off">
+              </label>
+              <span class="history-count" id="history-count">{{ riwayat|length }} kandidat</span>
+            {% endif %}
+            <div class="step-badge"><span class="step-number">03</span><span class="step-total">/ 03</span></div>
+          </div>
         </div>
         <div class="history-card">
           {% if riwayat %}
             <div class="table-responsive">
-              <table class="table align-middle mb-0">
+              <table class="table align-middle mb-0 history-table">
                 <thead>
                   <tr>
                     <th>Pelamar</th>
@@ -184,7 +250,7 @@
                 </thead>
                 <tbody>
                   {% for item in riwayat %}
-                    <tr>
+                    <tr data-history-row>
                       <td><span class="candidate-avatar">{{ item.nama_pelamar|slice:":1"|upper }}</span><strong>{{ item.nama_pelamar }}</strong></td>
                       <td class="muted-cell">{{ item.tanggal_input|date:"d M Y, H:i" }}</td>
                       <td><span class="status-pill {% if item.status_kelulusan == 'DITERIMA' %}pill-accepted{% else %}pill-rejected{% endif %}">{{ item.status_kelulusan }}</span></td>
@@ -199,6 +265,11 @@
                   {% endfor %}
                 </tbody>
               </table>
+            </div>
+            <div class="history-no-results" id="history-no-results" hidden>
+              <span aria-hidden="true">⌕</span>
+              <strong>Belum ada nama yang cocok</strong>
+              <p>Coba kata kunci lain, ya.</p>
             </div>
           {% else %}
             <div class="empty-state">
@@ -218,6 +289,255 @@
       <span>Django · Scikit-learn · Cohere</span>
     </div>
   </footer>
+  <div class="lightbox" id="chart-lightbox" aria-hidden="true">
+    <button class="lightbox-backdrop" type="button" data-lightbox-close aria-label="Tutup pratinjau gambar"></button>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" tabindex="-1">
+      <div class="lightbox-toolbar">
+        <p id="lightbox-caption">Visualisasi model</p>
+        <button type="button" class="lightbox-close" data-lightbox-close aria-label="Tutup pratinjau">×</button>
+      </div>
+      <img id="lightbox-image" src="" alt="">
+    </div>
+  </div>
+  {% if chat_context %}
+    {{ chat_context|json_script:"chat-context" }}
+  {% endif %}
+  <section class="chat-widget" aria-label="Asisten konsultasi IT">
+    <div class="chat-panel" id="chat-panel" role="dialog" aria-labelledby="chat-title" aria-hidden="true">
+      <header class="chat-header">
+        <div class="chat-avatar" aria-hidden="true">✦</div>
+        <div class="chat-heading">
+          <h2 id="chat-title">Asisten Konsultasi IT</h2>
+          <span><span class="chat-active-dot"></span>Aktif untuk membantu</span>
+        </div>
+        <button class="chat-close" id="chat-close" type="button" aria-label="Tutup chat">×</button>
+      </header>
+      <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
+        <div class="chat-message bot-message">
+          <span class="chat-message-label">Asisten</span>
+          <p>Halo! Saya bisa membantu membahas hasil seleksi, tips karier IT, dan negosiasi gaji. Apa yang ingin Anda tanyakan?</p>
+        </div>
+      </div>
+      <div class="chat-compose">
+        <div class="quick-replies" aria-label="Pertanyaan cepat">
+          <button type="button" class="quick-reply">Bagaimana cara kerja penilaian sistem ini?</button>
+          <button type="button" class="quick-reply">Analisis hasil seleksi saya &amp; saran peningkatan</button>
+          <button type="button" class="quick-reply">Tips meningkatkan skor tes coding &amp; wawancara</button>
+        </div>
+        <div class="chat-typing" id="chat-typing" aria-live="polite" hidden>Sedang mengetik...</div>
+        <form id="chat-form" class="chat-form">
+          {% csrf_token %}
+          <label class="visually-hidden" for="chat-input">Tulis pertanyaan</label>
+          <textarea id="chat-input" rows="1" maxlength="2000" placeholder="Tulis pertanyaan..." required></textarea>
+          <button id="chat-send" type="submit" aria-label="Kirim pesan">
+            <span aria-hidden="true">↑</span>
+          </button>
+        </form>
+        <span class="chat-disclaimer">Jawaban AI dapat keliru. Verifikasi informasi penting.</span>
+      </div>
+    </div>
+    <button class="chat-toggle" id="chat-toggle" type="button" aria-label="Buka asisten konsultasi IT" aria-expanded="false">
+      <span class="chat-tooltip">Ada yang bisa dibantu? <span aria-hidden="true">💬</span></span>
+      <svg class="chat-toggle-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20l1.2-4.1A8.4 8.4 0 1 1 20 11.5Z"></path>
+        <path d="M8 10h8M8 14h5"></path>
+      </svg>
+      <span class="chat-toggle-close" aria-hidden="true">×</span>
+    </button>
+  </section>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (() => {
+      document.querySelectorAll('.field-column .form-control[type="number"]').forEach((input) => {
+        const field = input.closest('.field-column');
+        const badge = field.querySelector('.score-live-badge');
+        const meter = field.querySelector('.score-meter-fill');
+        const progress = field.querySelector('.score-meter');
+        const isExperience = input.name === 'pengalaman_tahun';
+
+        const updateScorePreview = () => {
+          if (!input.value || !Number.isFinite(Number(input.value))) {
+            badge.textContent = 'Menunggu nilai';
+            badge.className = 'score-live-badge';
+            meter.style.width = '0%';
+            progress.setAttribute('aria-valuenow', '0');
+            return;
+          }
+
+          const value = Number(input.value);
+          const maximum = isExperience ? 10 : 100;
+          const boundedValue = Math.min(Math.max(value, 0), maximum);
+          meter.style.width = `${(boundedValue / maximum) * 100}%`;
+          progress.setAttribute('aria-valuenow', String(boundedValue));
+
+          let category;
+          let categoryClass;
+          if (isExperience) {
+            if (value < 1) [category, categoryClass] = ['Awal perjalanan', 'is-growing'];
+            else if (value < 3) [category, categoryClass] = ['Bertumbuh', 'is-growing'];
+            else if (value < 6) [category, categoryClass] = ['Berpengalaman', 'is-good'];
+            else [category, categoryClass] = ['Senior', 'is-great'];
+          } else if (value < 60) {
+            [category, categoryClass] = ['Perlu ditingkatkan', 'is-low'];
+          } else if (value < 75) {
+            [category, categoryClass] = ['Cukup baik', 'is-growing'];
+          } else if (value < 90) {
+            [category, categoryClass] = ['Baik', 'is-good'];
+          } else {
+            [category, categoryClass] = ['Sangat baik', 'is-great'];
+          }
+
+          badge.textContent = category;
+          badge.className = `score-live-badge ${categoryClass}`;
+        };
+
+        input.addEventListener('input', updateScorePreview);
+        updateScorePreview();
+      });
+
+      const historySearch = document.getElementById('history-search');
+      if (historySearch) {
+        const rows = Array.from(document.querySelectorAll('[data-history-row]'));
+        const emptyState = document.getElementById('history-no-results');
+        const count = document.getElementById('history-count');
+        historySearch.addEventListener('input', () => {
+          const query = historySearch.value.trim().toLocaleLowerCase('id');
+          let visibleCount = 0;
+          rows.forEach((row) => {
+            const matches = row.cells[0].textContent.toLocaleLowerCase('id').includes(query);
+            row.hidden = !matches;
+            if (matches) visibleCount += 1;
+          });
+          emptyState.hidden = visibleCount > 0;
+          count.textContent = `${visibleCount} kandidat`;
+        });
+      }
+
+      const lightbox = document.getElementById('chart-lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      const lightboxDialog = lightbox.querySelector('.lightbox-dialog');
+      let lightboxTrigger = null;
+
+      document.querySelectorAll('.chart-image-button').forEach((button) => {
+        button.addEventListener('click', () => {
+          const image = button.querySelector('img');
+          lightboxTrigger = button;
+          lightboxImage.src = image.src;
+          lightboxImage.alt = image.alt;
+          lightboxCaption.textContent = button.dataset.lightboxCaption;
+          lightbox.classList.add('is-open');
+          lightbox.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('lightbox-open');
+          lightboxDialog.focus();
+        });
+      });
+
+      const closeLightbox = () => {
+        if (!lightbox.classList.contains('is-open')) return;
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('lightbox-open');
+        if (lightboxTrigger) lightboxTrigger.focus();
+      };
+
+      lightbox.querySelectorAll('[data-lightbox-close]').forEach((button) => {
+        button.addEventListener('click', closeLightbox);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeLightbox();
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const panel = document.getElementById('chat-panel');
+      const toggle = document.getElementById('chat-toggle');
+      const close = document.getElementById('chat-close');
+      const form = document.getElementById('chat-form');
+      const input = document.getElementById('chat-input');
+      const send = document.getElementById('chat-send');
+      const messages = document.getElementById('chat-messages');
+      const typing = document.getElementById('chat-typing');
+      const quickReplies = document.querySelectorAll('.quick-reply');
+
+      const getCsrfToken = () => {
+        const cookie = document.cookie.split('; ').find((item) => item.startsWith('csrftoken='));
+        const hiddenInput = form.querySelector('[name="csrfmiddlewaretoken"]');
+        return cookie ? decodeURIComponent(cookie.split('=').slice(1).join('=')) : hiddenInput.value;
+      };
+
+      const addMessage = (text, sender) => {
+        const message = document.createElement('div');
+        message.className = `chat-message ${sender}-message`;
+        const label = document.createElement('span');
+        label.className = 'chat-message-label';
+        label.textContent = sender === 'user' ? 'Anda' : 'Asisten';
+        const body = document.createElement('p');
+        body.textContent = text;
+        message.append(label, body);
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
+      };
+
+      const sendMessage = async (text) => {
+        const message = text.trim();
+        if (!message || send.disabled) return;
+        addMessage(message, 'user');
+        input.value = '';
+        send.disabled = true;
+        typing.hidden = false;
+        messages.scrollTop = messages.scrollHeight;
+
+        let context = null;
+        const contextElement = document.getElementById('chat-context');
+        if (contextElement) context = JSON.parse(contextElement.textContent);
+
+        try {
+          const response = await fetch('/api/chat/', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCsrfToken(),
+            },
+            body: JSON.stringify({ message, context }),
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Pesan tidak dapat diproses.');
+          addMessage(data.reply, 'bot');
+        } catch (error) {
+          addMessage('Maaf, pesan belum dapat diproses. Silakan coba kembali.', 'bot');
+        } finally {
+          typing.hidden = true;
+          send.disabled = false;
+          input.focus();
+        }
+      };
+
+      const setOpen = (isOpen) => {
+        panel.classList.toggle('is-open', isOpen);
+        panel.setAttribute('aria-hidden', String(!isOpen));
+        toggle.setAttribute('aria-expanded', String(isOpen));
+        if (isOpen) input.focus();
+      };
+
+      toggle.addEventListener('click', () => setOpen(!panel.classList.contains('is-open')));
+      close.addEventListener('click', () => setOpen(false));
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        sendMessage(input.value);
+      });
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          form.requestSubmit();
+        }
+      });
+      quickReplies.forEach((button) => {
+        button.addEventListener('click', () => sendMessage(button.textContent));
+      });
+    })();
+  </script>
 </body>
 </html>
